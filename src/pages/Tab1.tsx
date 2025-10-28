@@ -1,25 +1,26 @@
 import { IonPage, IonContent, IonAlert } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import { Capacitor } from '@capacitor/core';
 import InstallPrompt from '../components/InstallPrompt';
 import { App } from '@capacitor/app';
 
 const Tab1: React.FC = () => {
   const history = useHistory();
+  const location = useLocation();
   const [showExitAlert, setShowExitAlert] = useState(false);
 
-  // Detect if running as installed PWA (standalone)
-  const isStandalone = (window.navigator as any).standalone || window.matchMedia('(display-mode: standalone)').matches;
-
-  console.log('Is Standalone PWA:', isStandalone);
+  // Check if running as standalone PWA
+  const isStandalone =
+    (window.navigator as any).standalone ||
+    window.matchMedia('(display-mode: standalone)').matches;
 
   useEffect(() => {
-    // Only attach back button listener in PWA
     if (!isStandalone) return;
 
     const handlePopState = (event: PopStateEvent) => {
-      // Only trigger alert if on Tab1 root
-      if (history.location.pathname === '/tab1') {
+      // Trigger alert only on Tab1 root
+      if (location.pathname === '/tab1') {
         event.preventDefault();
         setShowExitAlert(true);
         history.push('/tab1'); // prevent actual back
@@ -27,16 +28,15 @@ const Tab1: React.FC = () => {
     };
 
     window.addEventListener('popstate', handlePopState);
-
     return () => window.removeEventListener('popstate', handlePopState);
-  }, [history, isStandalone]);
+  }, [history, location, isStandalone]);
 
   const exitApp = () => {
-    if (isStandalone) {
-      App.exitApp(); // works on Android
+    const platform = Capacitor.getPlatform(); // 'android', 'ios', 'web'
+    if (platform === 'android' || platform === 'ios') {
+      App.exitApp(); // works only on mobile
     } else {
-      // In normal browser, do nothing or show a message
-      alert('Close the tab to exit the app.');
+      alert('Close the tab to exit the app.'); // fallback for web
     }
   };
 
@@ -47,13 +47,13 @@ const Tab1: React.FC = () => {
       </IonContent>
 
       <IonAlert
-        isOpen={true}
+        isOpen={showExitAlert}
         onDidDismiss={() => setShowExitAlert(false)}
         header="Exit App"
         message="Are you sure you want to exit?"
         buttons={[
           { text: 'Cancel', role: 'cancel' },
-          { text: 'Exit', handler: exitApp }
+          { text: 'Exit', handler: exitApp },
         ]}
       />
 
