@@ -20,7 +20,7 @@ const Tab1: React.FC = () => {
 
     const handlePopState = (event: PopStateEvent) => {
       // Trigger alert only on Tab1 root
-      if (location.pathname === '/tab1') {
+      if (location.pathname === '/') {
         event.preventDefault();
         setShowExitAlert(true);
         history.push('/tab1'); // prevent actual back
@@ -39,7 +39,6 @@ const Tab1: React.FC = () => {
       alert('Close the tab to exit the app.'); // fallback for web
     }
   };
-
   return (
     <IonPage>
       <IonContent className="ion-padding">
