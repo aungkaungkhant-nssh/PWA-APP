@@ -1,0 +1,51 @@
+/* Remove default padding from IonContent */
+.notfound-content {
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+/* Container fills the entire IonContent and centers children */
+.notfound-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  width: 100%;
+}
+
+/* Wrapper ensures column layout */
+.notfound-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Title styling */
+.notfound-title {
+  font-size: 7rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* Message text */
+.notfound-message {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+/* Button styling */
+.notfound-button {
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  width: 150px;
+}

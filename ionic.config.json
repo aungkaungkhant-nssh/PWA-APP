@@ -1,0 +1,7 @@
+{
+  "name": "Event-Management-Mobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
