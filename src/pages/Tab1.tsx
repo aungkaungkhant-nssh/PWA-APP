@@ -7,7 +7,13 @@ const Tab1: React.FC = () => {
   const history = useHistory();
   const [showExitAlert, setShowExitAlert] = useState(false);
 
+  // Detect if running as installed PWA (standalone)
+  const isStandalone = (window.navigator as any).standalone || window.matchMedia('(display-mode: standalone)').matches;
+
   useEffect(() => {
+    // Only attach back button listener in PWA
+    if (!isStandalone) return;
+
     const handlePopState = (event: PopStateEvent) => {
       // Only trigger alert if on Tab1 root
       if (history.location.pathname === '/tab1') {
@@ -20,25 +26,23 @@ const Tab1: React.FC = () => {
     window.addEventListener('popstate', handlePopState);
 
     return () => window.removeEventListener('popstate', handlePopState);
-  }, [history]);
+  }, [history, isStandalone]);
 
   const exitApp = () => {
-    // Detect if PWA is in standalone mode
-    const isStandalone = (window.navigator as any).standalone || window.matchMedia('(display-mode: standalone)').matches;
     if (isStandalone) {
       window.close(); // works in installed PWA
     } else {
+      // In normal browser, do nothing or show a message
       alert('Close the tab to exit the app.');
     }
   };
-
-
 
   return (
     <IonPage>
       <IonContent className="ion-padding">
         <h1>Tab 1 Root</h1>
       </IonContent>
+
       <IonAlert
         isOpen={showExitAlert}
         onDidDismiss={() => setShowExitAlert(false)}
@@ -49,6 +53,7 @@ const Tab1: React.FC = () => {
           { text: 'Exit', handler: exitApp }
         ]}
       />
+
       <InstallPrompt />
     </IonPage>
   );

@@ -4,8 +4,6 @@ import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 import { VitePWA } from 'vite-plugin-pwa';
-import fs from 'fs';
-import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -49,14 +47,14 @@ export default defineConfig({
     })
 
   ],
-  server: {
-    host: '0.0.0.0',
-    port: 8100,
-    https: {
-      key: fs.readFileSync(path.resolve(__dirname, '192.168.1.7+2-key.pem')),
-      cert: fs.readFileSync(path.resolve(__dirname, '192.168.1.7+2.pem')),
-    },
-  },
+  // server: {
+  //   host: '0.0.0.0',
+  //   port: 8100,
+  //   https: {
+  //     key: fs.readFileSync(path.resolve(__dirname, '192.168.1.7+2-key.pem')),
+  //     cert: fs.readFileSync(path.resolve(__dirname, '192.168.1.7+2.pem')),
+  //   },
+  // },
   test: {
     globals: true,
     environment: 'jsdom',

@@ -19,4 +19,13 @@ root.render(
   </React.StrictMode>
 );
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/dev-dist/sw.js')
+      .then(reg => console.log('SW registered', reg))
+      .catch(err => console.error('SW registration failed', err));
+  });
+}
+
+
 
