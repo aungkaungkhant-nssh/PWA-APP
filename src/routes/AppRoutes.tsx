@@ -15,7 +15,6 @@ import Tab3 from '../pages/Tab3';
 import ProtectedRoute from './ProtectedRoutes';
 import { Route } from 'react-router';
 import NotFound from '../pages/(errors)/NotFound';
-
 interface AppRoutesProps {
     isAuthenticated: boolean;
 }
@@ -23,9 +22,10 @@ interface AppRoutesProps {
 const AppRoutes: React.FC<AppRoutesProps> = ({ isAuthenticated }) => (
     <IonTabs>
         <IonRouterOutlet>
+
             <ProtectedRoute
                 exact
-                path="/tab1"
+                path="/"
                 component={Tab1}
                 isAuthenticated={isAuthenticated}
             />
