@@ -2,6 +2,7 @@ import { IonPage, IonContent, IonAlert } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import InstallPrompt from '../components/InstallPrompt';
+import { App } from '@capacitor/app';
 
 const Tab1: React.FC = () => {
   const history = useHistory();
@@ -9,6 +10,8 @@ const Tab1: React.FC = () => {
 
   // Detect if running as installed PWA (standalone)
   const isStandalone = (window.navigator as any).standalone || window.matchMedia('(display-mode: standalone)').matches;
+
+  console.log('Is Standalone PWA:', isStandalone);
 
   useEffect(() => {
     // Only attach back button listener in PWA
@@ -30,7 +33,7 @@ const Tab1: React.FC = () => {
 
   const exitApp = () => {
     if (isStandalone) {
-      window.close(); // works in installed PWA
+      App.exitApp(); // works on Android
     } else {
       // In normal browser, do nothing or show a message
       alert('Close the tab to exit the app.');
@@ -44,7 +47,7 @@ const Tab1: React.FC = () => {
       </IonContent>
 
       <IonAlert
-        isOpen={showExitAlert}
+        isOpen={true}
         onDidDismiss={() => setShowExitAlert(false)}
         header="Exit App"
         message="Are you sure you want to exit?"
